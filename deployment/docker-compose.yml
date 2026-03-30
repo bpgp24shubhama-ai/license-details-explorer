@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bmls-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bmls
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bmls"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  reference-ingestion-service:
+    build:
+      context: ..
+      dockerfile: services/reference-ingestion-service/Dockerfile
+    container_name: bmls-reference-ingestion
+    env_file:
+      - ../.env.example
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/bmls
+      SERVICE_NAME: reference-ingestion-service
+      UVICORN_PORT: 8002
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  license-extraction-service:
+    build:
+      context: ..
+      dockerfile: services/license-extraction-service/Dockerfile
+    container_name: bmls-license-extraction
+    env_file:
+      - ../.env.example
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/bmls
+      SERVICE_NAME: license-extraction-service
+      UVICORN_PORT: 8001
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

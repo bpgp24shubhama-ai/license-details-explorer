@@ -1,0 +1,32 @@
+{
+  "license_number": "LIC-2025-AB1234",
+  "license_name": "Food Safety License",
+  "license_category": "Food Business",
+  "mapped_license_category": "FSSAI",
+  "mapped_license_category_similarity": 0.94,
+  "issuing_authority": "Food Safety and Standards Authority of India",
+  "holder_name": "Acme Foods Pvt Ltd",
+  "address": "12 Industrial Area, Sector 7",
+  "location": "Mumabi",
+  "mapped_location": "Mumbai",
+  "mapped_location_similarity": 0.97,
+  "issue_date": "2024-01-14",
+  "expiry_date": "2029-01-13",
+  "validity_status": "valid",
+  "source_language": "en",
+  "translated_to_english": true,
+  "confidence_score": 0.91,
+  "raw_text": "Original extracted text from PDF/OCR...",
+  "extraction_notes": "Mapped location via vector similarity due to OCR typo.",
+  "page_numbers": [1, 2],
+  "source_snippets": [
+    "License No: LIC-2025-AB1234",
+    "Location: Mumabi"
+  ],
+  "request_id": "8ce1b5d8-4bda-4270-a68f-85504af8f793",
+  "ocr_used": false,
+  "ocr_provider": "pytesseract",
+  "extraction_model": "gpt-5-mini",
+  "processing_time_ms": 1392,
+  "document_type": "fssai"
+}
